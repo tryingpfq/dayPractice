@@ -1,0 +1,54 @@
+package com.tryingpfq.proxy.jdk;
+
+import sun.misc.ProxyGenerator;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
+
+/**
+ * @Author Tryingpfq
+ * @Time 2019/7/22 23:08
+ */
+public class Main {
+
+    public static void main(String[] args) {
+        TeamService ts = new TeamServiceImpl();
+
+        // 获取classLoader
+        ClassLoader classLoader = ts.getClass().getClassLoader();
+
+        // 所有实现的接口
+        Class[] intefaces = ts.getClass().getInterfaces();
+
+        // 设置来着代理传过来的方法调用请求处理器
+        InvocationHandler invocationHandler = new TeamProxy(ts);
+
+        // 创建代理对象，JDK会根据传入的参数动态的在内存中穿件.class 文件等同的字节码
+        // 然后根据相应的字节码转换成对应的class
+        // 然后调用newInstance()创建实例
+
+        Object o = Proxy.newProxyInstance(classLoader, intefaces, invocationHandler);
+        System.out.println(o.getClass());
+        ((TeamService)o).apply(123456L);
+
+        //createProxyFile(ts.getClass(),"$TeamProxy");
+    }
+
+    public static void createProxyFile(Class clazz,String name){
+        byte[] classByete = ProxyGenerator.generateProxyClass(name, clazz.getInterfaces());
+
+        String path = "out\\proxy\\";
+        try {
+            FileOutputStream outputStream = new FileOutputStream(path + name + ".class");
+            outputStream.write(classByete);
+            outputStream.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
