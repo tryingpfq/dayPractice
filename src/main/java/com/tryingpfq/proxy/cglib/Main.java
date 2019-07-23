@@ -19,6 +19,7 @@ public class Main {
         enhancer.setCallback(new MyMethodInterceptor());
         //创建代理对象
         TeamService proxy = (TeamService) enhancer.create();
-        proxy.accept(123456L);
+        //proxy.accept(123456L);
+        proxy.apply();
     }
 }
