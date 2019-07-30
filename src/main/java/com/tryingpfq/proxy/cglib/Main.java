@@ -1,7 +1,6 @@
 package com.tryingpfq.proxy.cglib;
 
-import net.sf.cglib.core.DebuggingClassWriter;
-import net.sf.cglib.proxy.Enhancer;
+import java.io.InputStreamReader;
 
 /**
  * @author tryingpfq
@@ -12,14 +11,18 @@ public class Main {
        // System.setProperty(DebuggingClassWriter.DEBUG_LOCATION_PROPERTY,"out\\proxy");
 
         //通过CGLib动态代理获取代理对象的过程
-        Enhancer enhancer = new Enhancer();
-        //设置enhancer的父类
-        enhancer.setSuperclass(TeamService.class);
-        //设置回调对象
-        enhancer.setCallback(new MyMethodInterceptor());
-        //创建代理对象
-        TeamService proxy = (TeamService) enhancer.create();
-        //proxy.accept(123456L);
-        proxy.apply();
+//        Enhancer enhancer = new Enhancer();
+//        //设置enhancer的父类
+//        enhancer.setSuperclass(TeamService.class);
+//        //设置回调对象
+//        enhancer.setCallback(new MyMethodInterceptor());
+//        //创建代理对象
+//        TeamService proxy = (TeamService) enhancer.create();
+//        //proxy.accept(123456L);
+//        proxy.apply();
+
+        TeamService teamService = new TeamService();
+        System.out.println(teamService.getClass().getClassLoader().getResource("ideacode.txt"));
+
     }
 }
