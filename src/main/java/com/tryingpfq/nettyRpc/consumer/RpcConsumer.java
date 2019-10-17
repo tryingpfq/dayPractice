@@ -1,7 +1,7 @@
 package com.tryingpfq.nettyRpc.consumer;
 
-import com.tryingpfq.consumer.proxy.RpcProxy;
-import com.tryingpfq.service.IRpcService;
+import com.tryingpfq.nettyRpc.consumer.proxy.RpcProxy;
+import com.tryingpfq.nettyRpc.service.IRpcService;
 
 public class RpcConsumer {
 
