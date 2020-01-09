@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<list>
+    @foreach{item:itemList}
+    <>
+        #foreach( $val in $list )
+            <${val.name}>@{item.${val.name}}</${val.name}>
+        #end
+    </model>
+</list>
