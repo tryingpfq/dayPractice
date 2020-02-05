@@ -13,8 +13,13 @@ public class RandomIdGenerator implements IdGenerator{
 
 
     @Override
-    public String generator() {
-        String substrOfHostName = getLastfieldOfHostName();
+    public String generator() throws IdGeneratorFailureException {
+        String substrOfHostName = null;
+        try {
+            substrOfHostName = getLastfieldOfHostName();
+        } catch (UnknownHostException e) {
+            throw new IdGeneratorFailureException("error", e);
+        }
 
         long currentTimeMillis = System.currentTimeMillis();
         String randomString = generateRandomAlphameric(8);
@@ -23,6 +28,10 @@ public class RandomIdGenerator implements IdGenerator{
     }
 
     private String generateRandomAlphameric(int length) {
+        if (length <= 0) {
+            throw new IllegalArgumentException("...");
+        }
+
         char[] randomChars = new char[length];
         int count = 0; Random random = new Random();
         while (count < length) {
@@ -38,18 +47,17 @@ public class RandomIdGenerator implements IdGenerator{
         return new String(randomChars);
     }
 
-    private String getLastfieldOfHostName() {
+    private String getLastfieldOfHostName() throws UnknownHostException {
         String substrOfHostName = null;
-        try {
-            String hostName = InetAddress.getLocalHost().getHostName();
-            substrOfHostName = getLastSubstrSplittedByDot(hostName);
-        } catch (UnknownHostException e) {
-            logger.warn("Failed to get the host name.", e);
-        }
+        String hostName = InetAddress.getLocalHost().getHostName();
+        substrOfHostName = getLastSubstrSplittedByDot(hostName);
         return substrOfHostName;
     }
 
     private String getLastSubstrSplittedByDot(String hostName) {
+        if (hostName == null || hostName.isEmpty()) {
+            throw  new IllegalArgumentException("...");
+        }
         String[] tokens = hostName.split("\\.");
         String substrOfHostName = tokens[tokens.length - 1];
         return substrOfHostName;

@@ -3,7 +3,7 @@ package com.tryingpfq.identifier;
 public interface IdGenerator {
 
 
-    String generator();
+    String generator() throws IdGeneratorFailureException;
 
 
 }
