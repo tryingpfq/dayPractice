@@ -1,6 +1,10 @@
 package com.tryingpfq.eventbus;
 
 import com.google.common.base.Preconditions;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ImmutableList;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -62,5 +66,32 @@ public class ObserverRegistry {
             observerActions.get(eventType).add(new ObserverAction(observer, method));
         }
         return observerActions;
+    }
+
+
+    private static final LoadingCache<Class<?>,ImmutableList<Method>> subscriberMethodsCache =
+            CacheBuilder.newBuilder()
+            .weakKeys()
+            .build(
+                    new CacheLoader<Class<?>, ImmutableList<Method>>() {
+                        @Override
+                        public ImmutableList<Method> load(Class<?> aClass) throws Exception {
+                            return getAnnotatedMethodsNotCached(aClass);
+                        }
+                    }
+            );
+
+    private static ImmutableList<Method> getAnnotatedMethods(Class<?> clazz) {
+        return subscriberMethodsCache.getUnchecked(clazz);
+    }
+
+    public static ImmutableList<Method> getAnnotatedMethodsNotCached(Class<?> clazz) {
+        Method[] methods = clazz.getDeclaredMethods();
+        for (Method method : methods) {
+            if (method.isAnnotationPresent(Subscribe.class)) {
+
+            }
+        }
+        return null;
     }
 }
