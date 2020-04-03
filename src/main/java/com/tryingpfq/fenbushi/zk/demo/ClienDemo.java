@@ -15,9 +15,9 @@ import static org.apache.zookeeper.Watcher.Event.KeeperState.SyncConnected;
  * @date 2020/3/26
  **/
 public class ClienDemo implements Watcher {
-    private static ZooKeeper zookeeper;
+    public static ZooKeeper zookeeper;
 
-    private static final String Addr = "192.168.48.128:2181,192.168.48.129:2181,192.168.48.130:2181";
+    private static final String Addr = "10.9.12.211:2181";
 
     private CountDownLatch countDownLatch = new CountDownLatch(1);
 
@@ -113,12 +113,11 @@ public class ClienDemo implements Watcher {
 
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws KeeperException, InterruptedException {
         ClienDemo watcher = new ClienDemo();
         watcher.connectZookeeper();
-        String aTry = watcher.createNode("/fuyou","321");
-        System.err.println("atry " + aTry);
-//        List<String> children = watcher.getChildren("/");
-//        System.err.println(children);
+        List<String> children = zookeeper.getChildren("/dubbo-dev/com.tryingpfq.provider.user.service.IUserService/providers", false);
+        Thread.sleep(20000L);
+
     }
 }

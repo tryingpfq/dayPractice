@@ -151,8 +151,14 @@
     <!-- https://mvnrepository.com/artifact/org.ow2.asm/asm -->
     <dependency>
       <groupId>org.ow2.asm</groupId>
-      <artifactId>asm</artifactId>
-      <version>7.2</version>
+      <artifactId>asm-commons</artifactId>
+      <version>7.0</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.ow2.asm</groupId>
+          <artifactId>asm-tree</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/com.carrotsearch/hppc -->
