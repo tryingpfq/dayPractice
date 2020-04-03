@@ -1,4 +1,4 @@
-package com.tryingpfq.asm;
+package com.tryingpfq.byteCode;
 
 /**
  * @author tryingpfq
@@ -6,6 +6,7 @@ package com.tryingpfq.asm;
  **/
 public class Base {
     public void process(){
+
         System.err.println("process");
     }
 }

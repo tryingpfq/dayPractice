@@ -1,4 +1,6 @@
-package com.tryingpfq.asm;
+package com.tryingpfq.byteCode.asm;
+
+import com.tryingpfq.byteCode.Base;
 
 /**
  * @author tryingpfq
@@ -7,7 +9,7 @@ package com.tryingpfq.asm;
 public class ASMMain {
     public static void main(String[] args) {
         Generator generator = new Generator();
-        generator.generator("com/tryingpfq/asm/Base");
+        generator.generator("com/tryingpfq/byteCode/Base");
         Base base = new Base();
         base.process();
     }

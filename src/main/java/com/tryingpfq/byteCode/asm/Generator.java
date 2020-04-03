@@ -1,4 +1,4 @@
-package com.tryingpfq.asm;
+package com.tryingpfq.byteCode.asm;
 
 import org.objectweb.asm.*;
 
@@ -12,7 +12,7 @@ import java.io.IOException;
  **/
 public class Generator {
 
-    public  void generator(String path){
+    public void generator(String path){
         try {
             ClassReader reader = new ClassReader(path);
             ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS);

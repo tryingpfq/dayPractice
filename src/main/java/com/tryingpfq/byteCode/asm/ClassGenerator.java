@@ -1,4 +1,4 @@
-//package com.tryingpfq.asm;
+//package com.tryingpfq.byteCode.asm;
 //
 //
 //import org.junit.Test;
@@ -53,7 +53,7 @@
 //
 //        // 动态加载生成的class字节码
 //        MyClassLoader myClassLoader = new MyClassLoader();
-//        Class c = myClassLoader.defineClass("com.tryingpfq.asm.Comparable", data);
+//        Class c = myClassLoader.defineClass("com.tryingpfq.byteCode.asm.Comparable", data);
 //        System.out.println(c.getName());
 //        Field f[] = c.getFields();
 //        for (int i = 0; i < f.length; i++)
