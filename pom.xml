@@ -59,12 +59,6 @@
       <version>5.1.0.RELEASE</version>
     </dependency>
 
-    <dependency>
-      <groupId>com.alibaba</groupId>
-      <artifactId>fastjson</artifactId>
-      <version>1.2.10</version>
-    </dependency>
-
     <!-- mysql -->
     <dependency>
       <groupId>mysql</groupId>
@@ -115,13 +109,7 @@
       <version>1.7</version>
     </dependency>
 
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.12</version>
-    </dependency>
 
-    <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
     <dependency>
       <groupId>org.apache.poi</groupId>
       <artifactId>poi</artifactId>
@@ -168,13 +156,6 @@
       <version>0.8.1</version>
     </dependency>
 
-    <dependency>
-      <groupId>com.sun</groupId>
-      <artifactId>tools</artifactId>
-      <version>1.8</version>
-      <scope>system</scope>
-      <systemPath>${java.home}/../lib/tools.jar</systemPath>
-    </dependency>
 
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -200,11 +181,6 @@
       <version>2.4.3</version>
     </dependency>
 
-    <dependency>
-      <groupId>io.netty</groupId>
-      <artifactId>netty-all</artifactId>
-      <version>4.1.45.Final</version>
-    </dependency>
 
     <dependency>
       <groupId>com.alibaba</groupId>
@@ -218,20 +194,18 @@
       <version>2.8.6</version>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-mapreduce-client-core -->
     <dependency>
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-mapreduce-client-core</artifactId>
       <version>3.2.1</version>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-mapreduce-client-common -->
     <dependency>
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-mapreduce-client-common</artifactId>
       <version>3.2.1</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-mapreduce-client-jobclient -->
+
     <dependency>
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-mapreduce-client-jobclient</artifactId>
@@ -239,18 +213,10 @@
       <scope>provided</scope>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-mapreduce-client-app -->
     <dependency>
       <groupId>org.apache.hadoop</groupId>
       <artifactId>hadoop-mapreduce-client-app</artifactId>
       <version>3.2.1</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-    <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <version>8.0.11</version>
     </dependency>
 
     <dependency>
@@ -259,27 +225,24 @@
       <version>3.4.10</version>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/org.apache.curator/curator-framework -->
     <dependency>
       <groupId>org.apache.curator</groupId>
       <artifactId>curator-framework</artifactId>
       <version>2.11.0</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/org.apache.curator/curator-recipes -->
+
     <dependency>
       <groupId>org.apache.curator</groupId>
       <artifactId>curator-recipes</artifactId>
       <version>2.11.0</version>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/com.101tec/zkclient -->
     <dependency>
       <groupId>com.101tec</groupId>
       <artifactId>zkclient</artifactId>
       <version>0.10</version>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/org.javassist/javassist -->
     <dependency>
       <groupId>org.javassist</groupId>
       <artifactId>javassist</artifactId>

@@ -44,4 +44,7 @@
         <property name="dataSource" ref="dataSource"></property>
     </bean>
 
+    <!-- 开启aop注解方式 -->
+    <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+
 </beans>
