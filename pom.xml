@@ -14,7 +14,6 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.11</version>
-      <scope>test</scope>
     </dependency>
 
     <dependency>
@@ -136,7 +135,6 @@
       <version>1.18.2</version>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/org.ow2.asm/asm -->
     <dependency>
       <groupId>org.ow2.asm</groupId>
       <artifactId>asm-commons</artifactId>
@@ -149,7 +147,6 @@
       </exclusions>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/com.carrotsearch/hppc -->
     <dependency>
       <groupId>com.carrotsearch</groupId>
       <artifactId>hppc</artifactId>
