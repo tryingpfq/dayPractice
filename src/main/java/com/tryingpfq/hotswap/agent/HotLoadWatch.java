@@ -89,7 +89,7 @@ public class HotLoadWatch {
                 e.printStackTrace();
             }
         }
-        String extension = FilenameUtils.getExtension(file.getName();
+        String extension = FilenameUtils.getExtension(file.getName());
         if ("class".equals(extension)) {
             loadClass(file);
         }else if("jar".equals(extension)){
