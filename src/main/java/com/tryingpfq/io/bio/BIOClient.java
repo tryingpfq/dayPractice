@@ -17,7 +17,6 @@ public class BIOClient {
 					OutputStream outputStream = client.getOutputStream();
 					byte[] buffer = new byte[1024];
 					int n;
-					System.out.println("客户端请输入：");
 					while ((n = System.in.read(buffer)) > 0) {
 						outputStream.write(buffer, 0, n);
 					}
@@ -32,7 +31,7 @@ public class BIOClient {
 					int n;
 					while ((n = in.read(buffer)) > 0) {
 						//
-						System.out.print("客户端收到：");
+						System.out.print("客户端收到消息：");
 						System.out.write(buffer, 0, n);
 						System.out.println();
 						System.out.println("客户端请输入：");
