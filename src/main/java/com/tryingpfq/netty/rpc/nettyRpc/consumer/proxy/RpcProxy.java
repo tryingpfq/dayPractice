@@ -1,8 +1,8 @@
-package com.tryingpfq.nettyRpc.consumer.proxy;
+package com.tryingpfq.netty.rpc.nettyRpc.consumer.proxy;
 
 
-import com.tryingpfq.nettyRpc.InvokeMsg;
-import com.tryingpfq.nettyRpc.register.RegistryHandler;
+import com.tryingpfq.netty.rpc.nettyRpc.InvokeMsg;
+import com.tryingpfq.netty.rpc.nettyRpc.register.RegistryHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;

@@ -1,7 +1,7 @@
-package com.tryingpfq.nettyRpc.provider;
+package com.tryingpfq.netty.rpc.nettyRpc.provider;
 
 
-import com.tryingpfq.nettyRpc.service.IRpcService;
+import com.tryingpfq.netty.rpc.nettyRpc.service.IRpcService;
 
 public class RpcServerImpl implements IRpcService {
 

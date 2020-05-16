@@ -1,4 +1,4 @@
-package com.tryingpfq.nettyRpc;
+package com.tryingpfq.netty.rpc.nettyRpc;
 
 import java.io.Serializable;
 

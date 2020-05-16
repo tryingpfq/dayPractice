@@ -1,6 +1,6 @@
-package com.tryingpfq.nettyRpc.register;
+package com.tryingpfq.netty.rpc.nettyRpc.register;
 
-import com.tryingpfq.nettyRpc.InvokeMsg;
+import com.tryingpfq.netty.rpc.nettyRpc.InvokeMsg;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
