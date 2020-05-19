@@ -50,7 +50,7 @@
                 <prop key="hibernate.show_sql">false</prop>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
                 <!-- 这个是说明可以在单线程中执行 -->
-                <prop key="current_session_context_class">thread</prop>
+                <prop key="hibernate.current_session_context_class">thread</prop>
             </props>
         </property>
     </bean>

@@ -22,7 +22,7 @@ public class TranTest extends BaseJunit4Test {
 
     @Test
     public void tranSave() {
-        TranEntity entity = TranEntity.valueOf(11, "peng");
+        TranEntity entity = TranEntity.valueOf(123, "peng");
         try {
             tranService.save(entity);
         }finally {
