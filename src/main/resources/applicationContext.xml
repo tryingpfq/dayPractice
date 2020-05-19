@@ -2,13 +2,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/aop
 	   http://www.springframework.org/schema/aop/spring-aop.xsd
        http://www.springframework.org/schema/context
-	   http://www.springframework.org/schema/context/spring-context.xsd">
+	   http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
 
     <context:component-scan base-package="com.tryingpfq">
@@ -40,11 +40,31 @@
         <property name="maxWaitMillis" value="300"/>
     </bean>
 
-    <bean id="userDaoImpl" class="com.tryingpfq.spring.jdbc.UserDaoImpl">
-        <property name="dataSource" ref="dataSource"></property>
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="com.tryingpfq.**"/>
+
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+                <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <!-- 这个是说明可以在单线程中执行 -->
+                <prop key="current_session_context_class">thread</prop>
+            </props>
+        </property>
     </bean>
 
-    <!-- 开启aop注解方式 -->
-    <aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory">
+        </property>
+    </bean>
+
+    <!-- 声明使用注解式事务 -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+<!--    <bean id="userDaoImpl" class="com.tryingpfq.spring.jdbc.UserDaoImpl">-->
+<!--        <property name="dataSource" ref="dataSource"></property>-->
+<!--    </bean>-->
 
 </beans>
