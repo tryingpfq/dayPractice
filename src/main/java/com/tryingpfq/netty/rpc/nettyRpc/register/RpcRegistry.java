@@ -1,4 +1,4 @@
-package com.tryingpfq.nettyRpc.register;
+package com.tryingpfq.netty.rpc.nettyRpc.register;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
