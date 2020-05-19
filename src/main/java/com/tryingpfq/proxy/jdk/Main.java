@@ -2,11 +2,14 @@ package com.tryingpfq.proxy.jdk;
 
 import sun.misc.ProxyGenerator;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * @Author Tryingpfq
@@ -36,21 +39,27 @@ public class Main {
         Object o = Proxy.newProxyInstance(classLoader, intefaces, invocationHandler);
         System.out.println(o.getClass());
         ((TeamService)o).apply(123456L);
-        //createProxyFile(ts.getClass(),"$TeamProxy");
+        createProxyFile(ts.getClass(),"$TeamProxyNew");
     }
 
     public static void createProxyFile(Class clazz,String name){
         byte[] classByete = ProxyGenerator.generateProxyClass(name, clazz.getInterfaces());
-
-        String path = "out\\proxy\\";   //输出到工程的该目录下
         try {
-            FileOutputStream outputStream = new FileOutputStream(path + name + ".class");
-            outputStream.write(classByete);
-            outputStream.flush();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+
+            Files.write(Paths.get("out/proxy/jdk" + File.separator + clazz.getSimpleName().replace('.', File.separatorChar) + ".class"), classByete);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+//        String path = "out\\proxy\\";   //输出到工程的该目录下
+//        try {
+//            FileOutputStream outputStream = new FileOutputStream(path + name + ".class");
+//            outputStream.write(classByete);
+//            outputStream.flush();
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 }
