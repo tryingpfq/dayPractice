@@ -19,9 +19,9 @@ public class ExcelUtil {
     }
 
     public static List<Object> readLineLessThan1000Row(String filePath, Sheet sheet) {
-        if (!StringUtils.hasText(filePath)) {
-            return null;
-        }
+//        if (!StringUtils.hasText(filePath)) {
+//            return null;
+//        }
         sheet = sheet == null ? initSheet : sheet;
         List<Object> result = null;
         try (InputStream inputStream = new FileInputStream(filePath)) {

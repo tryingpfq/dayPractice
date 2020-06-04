@@ -65,7 +65,6 @@ public class TestTemplate {
                     cell.setCellValue(o.toString());
                 }
             }
-
             workbook.write(outputStream);
         } catch (IOException e) {
             e.printStackTrace();
