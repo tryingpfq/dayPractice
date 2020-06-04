@@ -28,6 +28,9 @@ public class NIOClient {
     public static void main(String[] args) {
 
         try {
+            /**
+             * 打开客户端channel 并设置为非阻塞
+             */
             client = SocketChannel.open(serverAdrress);
             client.configureBlocking(false);
 
@@ -39,6 +42,9 @@ public class NIOClient {
         }
     }
 
+    /**
+     * 读写线程
+     */
     public static void session(){
         //开辟一个新线程从服务器端读数据
         new Reader().start();
