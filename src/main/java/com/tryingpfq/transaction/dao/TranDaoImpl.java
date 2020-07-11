@@ -3,6 +3,7 @@ package com.tryingpfq.transaction.dao;
 import com.tryingpfq.transaction.enity.TranEntity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,11 +21,16 @@ public class TranDaoImpl implements ITranDao {
     @Override
     public void save(TranEntity entity) {
         Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
-        session.save(entity);
-        //session.getTransaction().commit();// 如果这里提交了的话 应该是不会回滚的 但不确定 暂时的理解
-        int i = 5;
-        int a = 1 / (i - 5);
+        Transaction transaction = session.beginTransaction();
+        try {
+            session.save(entity);
+            session.getTransaction().commit();// 如果这里提交了的话 应该是不会回滚的 但不确定 暂时的理解
+            int i = 5;
+            int a = 1 / (i - 5);
+        } catch (Exception e) {
+            transaction.rollback();
+        }
+
     }
 
     @Override

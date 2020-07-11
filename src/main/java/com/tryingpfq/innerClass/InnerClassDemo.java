@@ -13,17 +13,18 @@ public class InnerClassDemo {
 
     public static void main(String[] args) {
         Player player = new Player();
-        new InnerClassDemo().innerClass(player);
-        player.playeDoInner();
+//        new InnerClassDemo().innerClass(player);
+//        player.playeDoInner();
+        List<String> strings = Lists.newArrayList();
+        strings.add("first");
+        hideInnerClass(player,strings);
+        player.doExecuror();
+        strings.add("second");
+        player.doExecuror();
     }
 
-    public static void hideInnerClass(Player player,List<String> message) {
-      player.addExecutor(new IExecutor() {
-          @Override
-          public void executor(Player player) {
-              System.err.println(message);
-          }
-      });
+    public static void hideInnerClass(Player player,final List<String> message) {
+      player.addExecutor(player1 -> System.err.println(message));
     }
 
     public void innerClass(Player player) {
