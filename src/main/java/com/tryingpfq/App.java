@@ -1,10 +1,13 @@
 package com.tryingpfq;
 
+import com.tryingpfq.design.singleton.StaticClassSingleton;
 import org.apache.poi.ss.formula.ThreeDEval;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.lang.ref.PhantomReference;
+import java.sql.Connection;
+import java.util.*;
 
 /**
  * Hello world!
@@ -31,49 +34,14 @@ public class App
 //            e.printStackTrace();
 //        }
 //        System.out.println(sum);
-//        System.err.println("start main");
-//        try {
-//            test();
-//        } catch (Exception e) {
-//            System.err.println("main catch");
-//        }
-//
-//
-//        System.err.println("finish main");
 
-        creteFile1();
-        creteFile2();
-
-    }
-
-
-
-    private static void creteFile1() {
-        FileWriter writer;
-
-        File file = new File("test.txt");
         try {
-            writer = new FileWriter(file, true);
-            writer.write("abc1");
-            writer.flush();
-        } catch (IOException e) {
+            excep();
+        } catch (Exception e) {
             e.printStackTrace();
         }
+        System.err.println("after excep");
     }
-    private static void creteFile2() {
-        FileWriter writer;
-
-        File file = new File("test.txt");
-        try {
-            writer = new FileWriter(file, true);
-            writer.write("abc2");
-            writer.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
 
     public static int fn(int id) {
         User user = new User(id);
@@ -85,6 +53,7 @@ public class App
 
         private String name;
 
+
         public User(int id){
             this.id = id;
         }
@@ -94,31 +63,27 @@ public class App
         }
     }
 
-    public static void test() throws Exception {
-        exc0();
-        try {
+    public void aa(){
 
-        } catch (Exception e) {
-            System.err.println("test catch");
-        }
 
+       // PhantomReference
     }
 
-    public static void exc0() {
-        try {
-            exc(0);
-        } catch (Exception e) {
-            try {
-                throw new Exception("exc");
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
-        System.err.println("exc 0");
+
+    public static void excep(){
+        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
+        System.err.println(classLoader);
+
+        ClassLoader loader = StaticClassSingleton.class.getClassLoader();
+        System.err.println(loader);
     }
 
-    public static void exc(int i) {
-        int a = 10 / i;
-        System.out.println(i);
+    public static void tryWithResource() {
+        try (InputStream inputStream = new FileInputStream("A")) {
+            inputStream.read();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
