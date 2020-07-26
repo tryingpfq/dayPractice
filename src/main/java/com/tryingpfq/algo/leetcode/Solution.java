@@ -118,14 +118,15 @@ public class Solution {
 
     /**
      * 最小路劲 动态规划 64
+     *
      * @param grid
      * @return
      */
-    public int minPathSum(int[][] grid){
+    public int minPathSum(int[][] grid) {
         if (grid == null || grid.length == 0 || grid[0].length == 0) {
             return -1;
         }
-        int row = grid.length,columns = grid[0].length;
+        int row = grid.length, columns = grid[0].length;
         int[][] dp = new int[row][columns];
         dp[0][0] = grid[0][0];
         for (int i = 1; i < row; i++) {
@@ -143,4 +144,85 @@ public class Solution {
         return dp[row - 1][columns - 1];
     }
 
+
+    /**
+     * 矩阵中最长递增路径
+     * 329
+     */
+
+    public int[][] dirs = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+    public int rows, columns;
+
+    public int longestIncreasingPath(int[][] matrix) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return 0;
+        }
+        rows = matrix.length;
+        columns = matrix[0].length;
+        int[][] memo = new int[rows][columns];
+        int ans = 0;
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < columns; ++j) {
+                ans = Math.max(ans, dfs(matrix, i, j, memo));
+            }
+        }
+        return ans;
+    }
+
+
+    public int dfs(int[][] matrix, int row, int column, int[][] memo) {
+        if (memo[row][column] != 0) {
+            return memo[row][column];
+        }
+        ++memo[row][column];
+        for (int[] dir : dirs) {
+            int newRow = row + dir[0], newColumn = column + dir[1];
+            if (newRow >= 0 && newRow < rows && newColumn >= 0 && newColumn < columns && matrix[newRow][newColumn] > matrix[row][column]) {
+                memo[row][column] = Math.max(memo[row][column], dfs(matrix, newRow, newColumn, memo) + 1);
+            }
+        }
+        return memo[row][column];
+    }
+
+    /**
+     * 单链表回文判断 234
+     */
+    public class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode(int x) {
+            this.val = x;
+        }
+    }
+
+    public boolean isPalindrome(ListNode head) {
+        if (head == null || head.next == null) {
+            return true;
+        }
+
+        ListNode fast = head, slow = head;
+
+        //找到中间节点
+        if (fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        ListNode pre= null;
+        while (slow != null) {
+            ListNode p = slow.next;
+            slow.next = pre;
+            pre = slow;
+            slow = p;
+        }
+
+        while (head != null && pre != null) {
+            if (head.val != pre.val) {
+                return false;
+            }
+            head = head.next;
+            pre = pre.next;
+        }
+        return true;
+    }
 }
