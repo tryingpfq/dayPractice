@@ -187,7 +187,7 @@ public class Solution {
     /**
      * 单链表回文判断 234
      */
-    public class ListNode {
+    public static class ListNode {
         int val;
         ListNode next;
 
@@ -208,7 +208,7 @@ public class Solution {
             slow = slow.next;
             fast = fast.next.next;
         }
-        ListNode pre= null;
+        ListNode pre = null;
         while (slow != null) {
             ListNode p = slow.next;
             slow.next = pre;
@@ -225,4 +225,89 @@ public class Solution {
         }
         return true;
     }
+
+    /**
+     * 判断子序列 392
+     *
+     * @param s
+     * @param t
+     * @return
+     */
+    public static boolean isSubsequence(String s, String t) {
+        //双指针
+        if (s == null || t == null || s.length() > t.length()) {
+            return false;
+        }
+        int i = 0, j = 0;
+        while (i < s.length() && j < t.length()) {
+            if (s.charAt(i) == t.charAt(j)) {
+                i++;
+            }
+            j++;
+        }
+        return i == s.length();
+    }
+
+    public static void main(String[] args) {
+        ListNode p = new ListNode(1);
+        int i= 2;
+        ListNode head = p;
+        p.next = new ListNode(2);
+        p.next.next = new ListNode(4);
+
+        ListNode q = new ListNode(1);
+        q.next = new ListNode(3);
+        q.next.next = new ListNode(4);
+
+        mergeTwoLists(p, q);
+    }
+
+    /**
+     * 反转链表206
+     */
+    public static ListNode reverseList(ListNode head) {
+        ListNode prev = null;
+        ListNode curr = head;
+        while (curr != null) {
+            ListNode temp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = temp;
+        }
+        return prev;
+    }
+
+    public static void print(ListNode head) {
+        while (head != null) {
+            System.out.println(head.val);
+            head = head.next;
+        }
+    }
+
+    /**
+     * 合并两个有序链表
+     * @param l1
+     * @param l2
+     * @return
+     */
+    public static ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        ListNode prehead = new ListNode(-1);
+
+        ListNode prev = prehead;
+        while (l1 != null && l2 != null) {
+            if (l1.val <= l2.val) {
+                prev.next = l1;
+                l1 = l1.next;
+            } else {
+                prev.next = l2;
+                l2 = l2.next;
+            }
+            prev = prev.next;
+        }
+        //剩余的长度处理
+        prev.next = l1 == null ? l2 : l1;
+
+        return prehead.next;
+    }
+
 }
