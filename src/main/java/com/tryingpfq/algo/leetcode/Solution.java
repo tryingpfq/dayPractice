@@ -196,6 +196,11 @@ public class Solution {
         }
     }
 
+    /**
+     * 回文链表
+     * @param head
+     * @return
+     */
     public boolean isPalindrome(ListNode head) {
         if (head == null || head.next == null) {
             return true;
@@ -204,7 +209,7 @@ public class Solution {
         ListNode fast = head, slow = head;
 
         //找到中间节点
-        if (fast.next != null) {
+        while (fast != null && fast.next != null) {
             slow = slow.next;
             fast = fast.next.next;
         }
@@ -224,6 +229,55 @@ public class Solution {
             pre = pre.next;
         }
         return true;
+    }
+
+    /**
+     * 删除链表元素 203
+     * @param head
+     * @param val
+     * @return
+     */
+    public ListNode removeElements(ListNode head, int val) {
+        if(head == null){
+            return null;
+        }
+        while (head != null && head.val == val) {
+            head = head.next;
+        }
+        ListNode pre = head;
+        ListNode p = head.next;
+        while (p != null) {
+            if (p.val == val) {
+                pre.next = p.next;
+                p = pre.next;
+            }else{
+                pre = p;
+                p = p.next;
+            }
+        }
+        return head;
+    }
+
+    /**
+     * 删除有序链表重复元素 83
+     * @param head
+     * @return
+     */
+    public ListNode deleteDuplicates(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        ListNode pre = head;
+        ListNode p = head.next;
+        while (p != null) {
+            if (pre.val == p.val) {
+                pre.next = p.next;
+            }else{
+                pre = p;
+            }
+            p = p.next;
+        }
+        return head;
     }
 
     /**
