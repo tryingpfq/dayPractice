@@ -1,7 +1,6 @@
 package com.tryingpfq.algo.leetcode;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author tryingpfq
@@ -198,6 +197,7 @@ public class Solution {
 
     /**
      * 回文链表
+     *
      * @param head
      * @return
      */
@@ -233,12 +233,13 @@ public class Solution {
 
     /**
      * 删除链表元素 203
+     *
      * @param head
      * @param val
      * @return
      */
     public ListNode removeElements(ListNode head, int val) {
-        if(head == null){
+        if (head == null) {
             return null;
         }
         while (head != null && head.val == val) {
@@ -250,7 +251,7 @@ public class Solution {
             if (p.val == val) {
                 pre.next = p.next;
                 p = pre.next;
-            }else{
+            } else {
                 pre = p;
                 p = p.next;
             }
@@ -260,6 +261,7 @@ public class Solution {
 
     /**
      * 删除有序链表重复元素 83
+     *
      * @param head
      * @return
      */
@@ -272,7 +274,7 @@ public class Solution {
         while (p != null) {
             if (pre.val == p.val) {
                 pre.next = p.next;
-            }else{
+            } else {
                 pre = p;
             }
             p = p.next;
@@ -304,7 +306,7 @@ public class Solution {
 
     public static void main(String[] args) {
         ListNode p = new ListNode(1);
-        int i= 2;
+        int i = 2;
         ListNode head = p;
         p.next = new ListNode(2);
         p.next.next = new ListNode(4);
@@ -340,6 +342,7 @@ public class Solution {
 
     /**
      * 合并两个有序链表
+     *
      * @param l1
      * @param l2
      * @return
@@ -364,4 +367,66 @@ public class Solution {
         return prehead.next;
     }
 
+
+    /**
+     * 二叉树 展开为链表 114
+     *
+     * @param root
+     */
+    public void flatten(TreeNode root) {
+        List<TreeNode> list = new ArrayList<>();
+        preOrder(root, list);
+        for (int i = 1; i < list.size(); i++) {
+            TreeNode prev = list.get(i - 1), curr = list.get(i);
+            prev.left = null;
+            prev.right = curr;
+        }
+
+    }
+
+    /**
+     * 前序递归遍历
+     */
+    private void preOrder(TreeNode root,  List<TreeNode> list) {
+        if (root == null) {
+            return;
+        }
+        list.add(root);
+        preOrder(root.left, list);
+        preOrder(root.right,list);
+    }
+
+    /**
+     * 有效的括号 20
+     *
+     * @param s
+     * @return
+     */
+
+
+
+    public boolean isValid(String s) {
+        HashMap<Character, Character> mappings = new HashMap<>();
+        mappings.put(')','(');
+        mappings.put(']','[');
+        mappings.put('}','{');
+
+
+        Stack<Character> stack = new Stack<>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (mappings.containsKey(c)) {
+                char top = stack.empty() ? '#' : stack.pop();
+
+                if (top != mappings.get(c)) {
+                    return false;
+                }
+            }
+            stack.push(c);
+            if (stack.size() > s.length() / 2 + 1) {
+                return false;
+            }
+        }
+        return stack.isEmpty();
+    }
 }
