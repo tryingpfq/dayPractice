@@ -1,5 +1,8 @@
 package com.tryingpfq.algo.leetcode;
 
+import org.eclipse.jetty.util.ArrayQueue;
+
+import javax.print.attribute.standard.PresentationDirection;
 import java.util.*;
 
 /**
@@ -315,7 +318,10 @@ public class Solution {
         q.next = new ListNode(3);
         q.next.next = new ListNode(4);
 
+        print(q);
         mergeTwoLists(p, q);
+        System.out.println("after");
+        print(q);
     }
 
     /**
@@ -387,13 +393,13 @@ public class Solution {
     /**
      * 前序递归遍历
      */
-    private void preOrder(TreeNode root,  List<TreeNode> list) {
+    private void preOrder(TreeNode root, List<TreeNode> list) {
         if (root == null) {
             return;
         }
         list.add(root);
         preOrder(root.left, list);
-        preOrder(root.right,list);
+        preOrder(root.right, list);
     }
 
     /**
@@ -404,12 +410,11 @@ public class Solution {
      */
 
 
-
     public boolean isValid(String s) {
         HashMap<Character, Character> mappings = new HashMap<>();
-        mappings.put(')','(');
-        mappings.put(']','[');
-        mappings.put('}','{');
+        mappings.put(')', '(');
+        mappings.put(']', '[');
+        mappings.put('}', '{');
 
 
         Stack<Character> stack = new Stack<>();
@@ -428,5 +433,115 @@ public class Solution {
             }
         }
         return stack.isEmpty();
+    }
+
+    /**
+     * 二叉树最大深度
+     *
+     * @param root
+     * @return
+     */
+    public int maxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
+    }
+
+    /**
+     * 字符串相加
+     *
+     * @param num1
+     * @param num2
+     * @return
+     */
+    public String addStrings(String num1, String num2) {
+        int i = num1.length() - 1, j = num2.length() - 1, add = 0;
+        StringBuffer sb = new StringBuffer();
+        while (i >= 0 || j >= 0 || add != 0) {
+            int x = i >= 0 ? num1.charAt(i) - '0' : 0;
+            int y = j >= 0 ? num2.charAt(j) - '0' : 0;
+            int result = x + y + add;
+            sb.append(result % 10);
+            add = result / 10;
+            i--;
+            j--;
+        }
+        return sb.reverse().toString();
+
+    }
+
+
+    /**
+     * 337 打家劫舍
+     *
+     * @param root
+     * @return
+     */
+    public int rob3(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int total = root.val;
+        if (root.left != null) {
+            total += rob3(root.left.left) + rob3(root.left.right);
+        }
+
+        if (root.right != null) {
+            total += rob3(root.right.left) + rob3(root.right.right);
+        }
+        return Math.max(total, rob3(root.left) + rob3(root.right));
+
+    }
+
+    //ro3改进一
+    public int rob(TreeNode root) {
+        HashMap<TreeNode, Integer> memory = new HashMap<>();
+        return rot3_1(root, memory);
+    }
+
+    public int rot3_1(TreeNode root, HashMap<TreeNode, Integer> memory) {
+        if (root == null) {
+            return 0;
+        }
+        if (memory.containsKey(root)) {
+            return memory.get(root);
+        }
+        int total = root.val;
+        if (root.left != null) {
+            total += rot3_1(root.left.left, memory) + rot3_1(root.left.right, memory);
+        }
+        if (root.right != null) {
+            total += rot3_1(root.right.left, memory) + rot3_1(root.right.right, memory);
+        }
+        int result = Math.max(total, rot3_1(root.left, memory) + rot3_1(root.right, memory));
+        memory.put(root, result);
+        return result;
+    }
+
+
+    /**
+     * 滑动窗口
+     *
+     * @param nums
+     * @param k
+     * @return
+     */
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        if (nums == null || nums.length < k || k == 0) {
+            return null;
+        }
+        Deque<Integer> deque = new LinkedList<>();
+        int[] res = new int[nums.length - k + 1];
+        for (int j = 0, i = 1 - k; j < nums.length; i++, j++) {
+            if (i > 0 && deque.peekFirst() == nums[i - 1])
+                deque.removeFirst(); // 删除 deque 中对应的 nums[i-1]
+            while (!deque.isEmpty() && deque.peekLast() < nums[j])
+                deque.removeLast(); // 保持 deque 递减
+            deque.addLast(nums[j]);
+            if (i >= 0)
+                res[i] = deque.peekFirst();  // 记录窗口最大值
+        }
+        return res;
     }
 }
