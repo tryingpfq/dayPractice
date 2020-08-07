@@ -544,4 +544,51 @@ public class Solution {
         }
         return res;
     }
+
+    /**
+     * 687 最长同值路劲
+     * @param root
+     * @return
+     */
+    int ans = 0;
+    public int longestUnivaluePath(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return arrowLength(root);
+    }
+
+    public int arrowLength(TreeNode node) {
+        if (node == null) {
+            return 0;
+        }
+        int left = arrowLength(node.left);
+        int right = arrowLength(node.right);
+        int arrowLeft = 0,arrowRight = 0;
+        if (node.left != null && node.left.val == node.val) {
+            arrowLeft += left+  1;
+        }
+        if (node.right != null && node.right.val == node.val) {
+            arrowRight += right +1;
+        }
+        ans = Math.max(ans, arrowLeft + arrowRight);
+        return Math.max(arrowLeft, arrowRight);
+    }
+
+    /**
+     * 100 相同的树
+     * @param p
+     * @param q
+     * @return
+     */
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        if (p == null && q == null) {
+            return true;
+        } else if (p == null || q == null) {
+            return false;
+        } else if (p.val == q.val) {
+            return false;
+        }
+        return isSameTree(p.right, q.right) && isSameTree(p.left, q.left);
+    }
 }
