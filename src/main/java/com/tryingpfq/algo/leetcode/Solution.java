@@ -1,8 +1,7 @@
 package com.tryingpfq.algo.leetcode;
 
-import org.eclipse.jetty.util.ArrayQueue;
+import org.apache.commons.lang.ArrayUtils;
 
-import javax.print.attribute.standard.PresentationDirection;
 import java.util.*;
 
 /**
@@ -547,10 +546,12 @@ public class Solution {
 
     /**
      * 687 最长同值路劲
+     *
      * @param root
      * @return
      */
     int ans = 0;
+
     public int longestUnivaluePath(TreeNode root) {
         if (root == null) {
             return 0;
@@ -564,12 +565,12 @@ public class Solution {
         }
         int left = arrowLength(node.left);
         int right = arrowLength(node.right);
-        int arrowLeft = 0,arrowRight = 0;
+        int arrowLeft = 0, arrowRight = 0;
         if (node.left != null && node.left.val == node.val) {
-            arrowLeft += left+  1;
+            arrowLeft += left + 1;
         }
         if (node.right != null && node.right.val == node.val) {
-            arrowRight += right +1;
+            arrowRight += right + 1;
         }
         ans = Math.max(ans, arrowLeft + arrowRight);
         return Math.max(arrowLeft, arrowRight);
@@ -577,6 +578,7 @@ public class Solution {
 
     /**
      * 100 相同的树
+     *
      * @param p
      * @param q
      * @return
@@ -594,12 +596,13 @@ public class Solution {
 
     /**
      * 696 计数二进制子串
+     *
      * @param s
      * @return
      */
     public int countBinarySubstrings(String s) {
         List<Integer> counts = new ArrayList<>();
-        int ptr = 0,n = s.length();
+        int ptr = 0, n = s.length();
         while (ptr < n) {
             char c = s.charAt(ptr);
             int count = 1;
@@ -614,5 +617,73 @@ public class Solution {
             ans += Math.min(counts.get(i), counts.get(i - 1));
         }
         return ans;
+    }
+
+
+    /**
+     * 349 两个数组的交集
+     *
+     * @param nums1
+     * @param nums2
+     * @return
+     */
+    public int[] intersection(int[] nums1, int[] nums2) {
+        if (nums1 == null || nums2 == null) {
+            return null;
+        }
+        Set<Integer> set1 = new HashSet<>(Arrays.asList(ArrayUtils.toObject(nums1)));
+        Set<Integer> set2 = new HashSet<>(Arrays.asList(ArrayUtils.toObject(nums1)));
+        int[] result = new int[set1.size()];
+        int index = 0;
+        for (Integer val : set1) {
+            if (set2.contains(val)) {
+                result[index] = val;
+                index++;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 被围绕的区域 图 130
+     *
+     * @param board
+     */
+    public void solve(char[][] board) {
+        if (board == null || board.length == 0) {
+            return;
+        }
+        int m = board.length, n = board[0].length;
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                boolean isEdge = i == 0 || j == 0 || i == m - 1 || j == n - 1;
+                if (isEdge && board[i][j] == 'O') {
+                    dfs(board, i, j);
+                }
+            }
+        }
+
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (board[i][j] == 'O') {
+                    board[i][j] = 'X';
+                }
+                if (board[i][j] == '#') {
+                    board[i][j] = 'O';
+                }
+            }
+        }
+    }
+
+    public void dfs(char[][] board, int i, int j) {
+        if (i < 0 || j < 0 || i >= board.length || j >= board[0].length ||
+                board[i][j] == 'X' || board[i][j] == '#') {
+            return;
+        }
+        board[i][j] = '#';
+        dfs(board, i - 1, j);
+        dfs(board, i + 1, j);
+        dfs(board, i, j - 1);
+        dfs(board, i, j + 1);
     }
 }
