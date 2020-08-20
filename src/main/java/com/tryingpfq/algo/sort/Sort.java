@@ -134,7 +134,7 @@ public class Sort {
         quickSortInternally(a, 0, n);
     }
 
-    public void quickSortInternally(int[] a, int p, int r) {
+    public void quickSortInternally(int[] a, int p, int r) { 
         if (p >= r) {
             return;
         }
