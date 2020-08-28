@@ -686,4 +686,71 @@ public class Solution {
         dfs(board, i, j - 1);
         dfs(board, i, j + 1);
     }
+
+    /**
+     * 重复的子字符串
+     *
+     * @param s
+     * @return
+     */
+    public boolean repeatedSubstringPattern(String s) {
+        int n = s.length();
+        for (int i = 1; i * 2 <= n; ++i) {
+            if (n % i == 0) {
+                boolean match = true;
+                for (int j = i; j < n; ++j) {
+                    if (s.charAt(j) != s.charAt(j - i)) {
+                        match = false;
+                        break;
+                    }
+                }
+                if (match) {
+                    return true;
+                }
+            }
+        }
+        return false;
+
+    }
+
+    /**
+     * 机器人能否回到原点 657
+     *
+     * @param moves
+     * @return
+     */
+    private static final char CHAR_U = 'U';
+    private static final char CHAR_D = 'D';
+    private static final char CHAR_R = 'R';
+    private static final char CHAR_L = 'L';
+
+    public static boolean judgeCircle(String moves) {
+        if (moves == null || moves.length() == 0) {
+            return true;
+        }
+        int L = 0, R = 0, U = 0, D = 0;
+        for (int i = 0; i < moves.length(); i++) {
+            char ch = moves.charAt(i);
+            switch (ch) {
+                case CHAR_U:
+                    U++;
+                    break;
+                case CHAR_D:
+                    U++;
+                    break;
+                case CHAR_L:
+                    L++;
+                    break;
+                case CHAR_R:
+                    R++;
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + ch);
+            }
+        }
+        if (L != R || U != D) {
+            return false;
+        }
+        return true;
+    }
 }
