@@ -790,6 +790,7 @@ public class Solution {
 
     /**
      * 841 钥匙和房间
+     *
      * @param rooms
      * @return
      */
@@ -816,6 +817,7 @@ public class Solution {
 
     /**
      * 347. 前 K 个高频元素
+     *
      * @param nums
      * @param k
      * @return
@@ -829,7 +831,7 @@ public class Solution {
         PriorityQueue<int[]> queue = new PriorityQueue<>(Comparator.comparingInt(o -> o[1]));
 
         for (Map.Entry<Integer, Integer> entry : occurrences.entrySet()) {
-            int num = entry.getKey(),count = entry.getValue();
+            int num = entry.getKey(), count = entry.getValue();
             if (queue.size() == k) {
                 if (queue.peek()[1] < count) {
                     queue.poll();
@@ -848,6 +850,7 @@ public class Solution {
 
     /**
      * 215. 数组中的第K个最大元素
+     *
      * @param nums
      * @param k
      * @return
@@ -856,9 +859,198 @@ public class Solution {
         return -1;
     }
 
+
+    /**
+     * 2 两数之和
+     *
+     * @param l1
+     * @param l2
+     * @return
+     */
+
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        int last = l1.val + l2.val;
+        int inc = last / 10;
+        ListNode p = new ListNode(last % 10);
+        ListNode result = p;
+        while (l1.next != null || l2.next != null) {
+            int a = 0;
+            if (l1.next != null) {
+                l1 = l1.next;
+                a = l1.val;
+            }
+            int b = 0;
+            if (l2.next != null) {
+                l2 = l2.next;
+                b = l2.val;
+            }
+            int sum = inc + a + b;
+            inc = sum / 10;
+            p.next = new ListNode(sum % 10);
+            p = p.next;
+        }
+        if (inc > 0) {
+            p.next = new ListNode(inc);
+        }
+        return result;
+    }
+
+    /**
+     * 3 无重复字符串的最长子串
+     *
+     * @param s
+     * @return
+     */
+    public int lengthOfLongestSubstring(String s) {
+        if (s == null || s.isEmpty()) {
+            return 0;
+        }
+        // 哈希集合，记录每个字符是否出现过
+        Set<Character> occ = new HashSet<Character>();
+        int n = s.length();
+        // 右指针，初始值为 -1，相当于我们在字符串的左边界的左侧，还没有开始移动
+        int rk = -1, ans = 0;
+        for (int i = 0; i < n; ++i) {
+            if (i != 0) {
+                // 左指针向右移动一格，移除一个字符
+                occ.remove(s.charAt(i - 1));
+            }
+            while (rk + 1 < n && occ.add(s.charAt(rk + 1))) {
+                // 不断地移动右指针CountDownLatch
+                // occ.add(s.charAt(rk + 1));
+                ++rk;
+            }
+            // 第 i 到 rk 个字符是一个极长的无重复字符子串
+            ans = Math.max(ans, rk - i + 1);
+        }
+        return ans;
+    }
+
+    public int[] getLeastNumbers(int[] arr, int k) {
+        int len = arr.length;
+        if (len < k) {
+            return null;
+        }
+        quickSort(arr, 0, arr.length - 1, k);
+        int[] vic = new int[k];
+        for (int i = 0; i < k; i++) {
+            vic[i] = arr[i];
+        }
+        return vic;
+    }
+
+    private static void quickSort(int[] arr, int p, int r, int k) {
+        if (p >= r) {
+            return;
+        }
+        int pos = pos(arr, p, r);
+//        if (pos == k) {
+//            return;
+//        }
+        quickSort(arr, p, pos - 1, k);
+        quickSort(arr, pos + 1, r, k);
+    }
+
+    private static int pos(int[] arr, int p, int r) {
+        int privot = arr[r];
+        int i = p;
+        for (int j = p; j < r; j++) {
+            if (arr[j] > privot) {
+                if (i == j) {
+                    i++;
+                } else {
+                    int temp = arr[i];
+                    arr[i++] = arr[j];
+                    arr[j] = temp;
+                }
+            }
+        }
+        int temp = arr[r];
+        arr[r] = arr[i];
+        arr[i] = temp;
+        return i;
+    }
+
+    private static void topK(int[] data, int k) {
+        PriorityQueue<Integer> queue = new PriorityQueue<>();
+        for (int i = 0; i < data.length; i++) {
+            if (queue.size() < k) {
+                queue.offer(data[i]);
+            } else {
+                int value = queue.peek();
+                if (data[i] > value) {
+                    queue.poll();
+                    queue.offer(data[i]);
+                }
+            }
+        }
+        System.err.println(queue);
+    }
+
+    /**
+     * 82. 删除排序链表中的重复元素 II
+     */
+    public static ListNode deleteDuplicates2(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        if (head.val == head.next.val) {
+            while (head != null && head.next != null && head.next.val == head.val) {
+                head = head.next;
+            }
+            return deleteDuplicates2(head.next);
+        } else {
+            head.next = deleteDuplicates2(head.next);
+            return head;
+        }
+    }
+
+    /**
+     * 剑指offer 68 二叉树最近公共祖先
+     *
+     * @param root
+     * @param p
+     * @param q
+     * @return
+     */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null) {
+            return null;
+        }
+        if (root == p || root == q) {
+            return root;
+        }
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right,p,q);
+        if (left == null) {
+            return right;
+        } else if (right == null) {
+            return left;
+        }
+        return root;
+    }
+
+    /**
+     * 53 最大子序和
+     *
+     * @param nums
+     * @return
+     */
+    public int maxSubArray(int[] nums) {
+        int pre = 0;
+        int max = nums[0];
+        for (int num : nums) {
+            pre = Math.max(pre + num, num);
+            max = Math.max(pre, max);
+        }
+        return max;
+    }
+
+
+
     public static void main(String[] args) {
-        int[] nums = new int[]{1, 1, 1, 2, 2, 3};
-        topKFrequent(nums, 2);
+        int[] nums = new int[]{10, 1, 6, 9, 21, 3};
+        topK(nums, 3);
     }
 
 }
