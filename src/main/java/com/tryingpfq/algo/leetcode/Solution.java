@@ -1046,11 +1046,20 @@ public class Solution {
         return max;
     }
 
-
+    
 
     public static void main(String[] args) {
         int[] nums = new int[]{10, 1, 6, 9, 21, 3};
         topK(nums, 3);
     }
 
+
+    public String intToRoman(int num) {
+        StringBuffer stringBuffer = new StringBuffer();
+        int[] val = new int[]{1000, 500, 100, 50, 10, 5, 1};
+        for (int i = 0; i < val.length; i++) {
+
+        }
+        return "";
+    }
 }
