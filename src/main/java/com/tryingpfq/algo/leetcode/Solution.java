@@ -1046,11 +1046,86 @@ public class Solution {
         return max;
     }
 
+
+    private int  x;
+    private TreeNode xParent;
+    private int xDepth;
+    private boolean xFound;
+
+    private int y;
+    private TreeNode yParent;
+    private int yDepth;
+    private boolean yFound;
+
+    public boolean isCousins(TreeNode root, int x, int y) {
+        this.x = x;
+        this.y = y;
+        dfs(root,0,null);
+        return xDepth == yDepth && xParent != yParent;
+    }
+
+    public void dfs(TreeNode treeNode, int depth, TreeNode parent) {
+        if (treeNode == null) {
+            return;
+        }
+        if (treeNode.val == x) {
+            xParent =parent;
+            this.xDepth = depth;
+            this.xFound = true;
+        } else if (treeNode.val == y) {
+            this.yParent = parent;
+            this.yDepth = depth;
+            this.yFound = true;
+        }
+
+        if (xFound && yFound) {
+            return ;
+        }
+
+        dfs(treeNode.left, depth + 1, treeNode);
+
+        if (xFound && yFound) {
+            return;
+        }
+
+        dfs(treeNode.right, depth + 1, treeNode);
+
+        if (xFound && yFound) {
+            return;
+        }
+
+    }
+
+
+    public static int[] getLeastNumbers1(int[] arr, int k) {
+        if(k<= 0 || arr == null || arr.length < k){
+            return new int[0];
+        }
+
+        PriorityQueue<Integer> queue = new PriorityQueue<Integer>((num1, num2) -> num2 - num1);
+
+        for(int i = 0 ; i < arr.length ; i++){
+            queue.offer(arr[i]);
+
+            if (queue.size() > k) {
+                queue.poll();
+            }
+        }
+
+        int[] ans = new int[k];
+        int i = 0;
+        while (!queue.isEmpty()) {
+            ans[i] = queue.poll();
+            i ++;
+        }
+        return ans;
+    }
     
 
     public static void main(String[] args) {
         int[] nums = new int[]{10, 1, 6, 9, 21, 3};
-        topK(nums, 3);
+        int[] leastNumbers1 = getLeastNumbers1(nums, 3);
+        System.err.println(leastNumbers1);
     }
 
 

@@ -16,6 +16,10 @@ public class Heap {
         this.capacity = capacity;
     }
 
+    public int getSize() {
+        return n;
+    }
+
     /**
      * 下沉调整
      * @param i
@@ -65,5 +69,26 @@ public class Heap {
         data[0] = data[--n];
         sink(0);
         return ret;
+    }
+
+
+    public int[] getLeastNumbers(int[] arr, int k) {
+        if (k <= 0 || arr == null || arr.length == 0) {
+            return new int[0];
+        }
+
+        for (int i = 0; i < arr.length; i++) {
+            push(arr[i]);
+
+            if (getSize() > k) {
+                pop();
+            }
+        }
+        int[] ans = new int[k];
+        int i = 0;
+        while (getSize() > 0) {
+            ans[i++] = pop();
+        }
+        return ans;
     }
 }

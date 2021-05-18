@@ -1,5 +1,9 @@
 package com.tryingpfq.algo.lagou.heap;
 
+import org.apache.xmlbeans.impl.values.XmlIntRestriction;
+
+import java.util.*;
+
 public class Demo {
 
 
@@ -74,4 +78,57 @@ public class Demo {
         }
         a[i] = t;
     }
+
+    public class Counter extends HashMap<Integer, Integer> {
+
+        public int get(Integer k) {
+            return containsKey(k) ? super.get(k) : 0;
+        }
+
+        public void add(Integer k, Integer v) {
+            put(k, get(k));
+            if (get(k) <= 0) {
+                remove(k);
+            }
+        }
+    }
+
+    class Node {
+        public int val = 0;
+        public int cnt = 0;
+
+        public Node(int a, int b) {
+            val = a;
+            cnt = b;
+        }
+    }
+
+    public int[] topKFrequent(int[] A, int k) {
+        final int N = A == null ? 0 : A.length;
+        if (k <= 0) {
+            return new int[0];
+        }
+        int[] ans = new int[k];
+
+        Counter h = new Counter();
+        for (int i = 0; i < N; i++) {
+            h.add(A[i], 1);
+        }
+
+        Queue<Node> queue = new PriorityQueue<>(Comparator.comparingInt(v -> v.cnt));
+        for (Map.Entry<Integer, Integer> entry : h.entrySet()) {
+            queue.add(new Node(entry.getKey(), entry.getValue()));
+            if (queue.size() > k) {
+                queue.poll();
+            }
+        }
+        int i = 0 ;
+        while (!queue.isEmpty()) {
+            ans[i++] = queue.poll().val;
+        }
+
+        Arrays.sort(ans);
+        return ans;
+    }
+
 }
