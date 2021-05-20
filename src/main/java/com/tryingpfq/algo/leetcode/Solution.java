@@ -195,6 +195,10 @@ public class Solution {
         ListNode(int x) {
             this.val = x;
         }
+
+        ListNode() {
+
+        }
     }
 
     /**
@@ -1021,7 +1025,7 @@ public class Solution {
             return root;
         }
         TreeNode left = lowestCommonAncestor(root.left, p, q);
-        TreeNode right = lowestCommonAncestor(root.right,p,q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
         if (left == null) {
             return right;
         } else if (right == null) {
@@ -1047,7 +1051,7 @@ public class Solution {
     }
 
 
-    private int  x;
+    private int x;
     private TreeNode xParent;
     private int xDepth;
     private boolean xFound;
@@ -1060,7 +1064,7 @@ public class Solution {
     public boolean isCousins(TreeNode root, int x, int y) {
         this.x = x;
         this.y = y;
-        dfs(root,0,null);
+        dfs(root, 0, null);
         return xDepth == yDepth && xParent != yParent;
     }
 
@@ -1069,7 +1073,7 @@ public class Solution {
             return;
         }
         if (treeNode.val == x) {
-            xParent =parent;
+            xParent = parent;
             this.xDepth = depth;
             this.xFound = true;
         } else if (treeNode.val == y) {
@@ -1079,7 +1083,7 @@ public class Solution {
         }
 
         if (xFound && yFound) {
-            return ;
+            return;
         }
 
         dfs(treeNode.left, depth + 1, treeNode);
@@ -1098,13 +1102,13 @@ public class Solution {
 
 
     public static int[] getLeastNumbers1(int[] arr, int k) {
-        if(k<= 0 || arr == null || arr.length < k){
+        if (k <= 0 || arr == null || arr.length < k) {
             return new int[0];
         }
 
         PriorityQueue<Integer> queue = new PriorityQueue<Integer>((num1, num2) -> num2 - num1);
 
-        for(int i = 0 ; i < arr.length ; i++){
+        for (int i = 0; i < arr.length; i++) {
             queue.offer(arr[i]);
 
             if (queue.size() > k) {
@@ -1116,16 +1120,201 @@ public class Solution {
         int i = 0;
         while (!queue.isEmpty()) {
             ans[i] = queue.poll();
-            i ++;
+            i++;
         }
         return ans;
     }
-    
+
+
+    public List<String> topKFrequent(String[] words, int k) {
+        int N = words == null ? 0 : words.length;
+        if (k <= 0) {
+            return new ArrayList<>();
+        }
+
+        List<String> ans = new ArrayList<>(k);
+
+        Counter counter = new Counter();
+        for (int i = 0; i < N; i++) {
+            counter.add(words[i], 1);
+        }
+
+        Queue<NVal> queue = new PriorityQueue<>((v1, v2) -> {
+            if (v1.cnt != v2.cnt) {
+                return v1.cnt - v2.cnt;
+            }
+            return v2.str.compareTo(v2.str);
+        });
+
+        for (Map.Entry<String, Integer> entry : counter.entrySet()) {
+            queue.offer(new NVal(entry.getKey(), entry.getValue()));
+            if (queue.size() > k) {
+                queue.poll();
+            }
+        }
+
+        while (!queue.isEmpty()) {
+            ans.add(queue.poll().str);
+        }
+        Collections.reverse(ans);
+
+        return ans;
+    }
+
+    class NVal {
+        public String str;
+        public int cnt = 0;
+
+        public NVal(String str, int val) {
+            this.str = str;
+            this.cnt = val;
+        }
+    }
+
+    /**
+     * 合并k个升序链表
+     *
+     * @param lists
+     * @return
+     */
+    public ListNode mergeKLists(ListNode[] lists) {
+        final int N = lists == null ? 0 : lists.length;
+        Queue<ListNode> queue = new PriorityQueue<>(Comparator.comparingInt(v -> v.val));
+
+        for (int i = 0; i < lists.length; i++) {
+            if (lists[i] != null) {
+                queue.offer(lists[i]);
+            }
+        }
+
+        ListNode dummy = new ListNode();
+        ListNode tail = dummy;
+        while (!queue.isEmpty()) {
+            ListNode cur = queue.poll();
+            tail.next = cur;
+            tail = cur;
+            if (cur.next != null) {
+                queue.offer(cur.next);
+            }
+        }
+
+        return dummy.next;
+    }
+
+    class Counter extends HashMap<String, Integer> {
+        @Override
+        public Integer get(Object key) {
+            return containsKey(key) ? super.get(key) : 0;
+        }
+
+
+        public void add(String str, int v) {
+            put(str, get(str) + v);
+            if (get(str) <= 0) {
+                remove(str);
+            }
+        }
+    }
+
+    /**
+     * 1642
+     *
+     * @param heights
+     * @param bricks
+     * @param ladders
+     * @return
+     */
+    public int furthestBuilding(int[] heights, int bricks, int ladders) {
+        if (heights == null || heights.length == 0) {
+            return 0;
+        }
+        int preHigh = heights[0];
+        Queue<Integer> queue = new PriorityQueue<>((v1, v2) -> v2 - v1);
+
+        int sum = 0;
+        int lastPos = 0;
+
+        for (int i = 1; i < heights.length; i++) {
+            int curHigh = heights[i];
+            if (preHigh >= curHigh) {
+                lastPos = i;
+            } else {
+                int delta = curHigh - preHigh;
+                queue.offer(delta);
+
+                sum += delta;
+                while (sum > bricks && ladders > 0) {
+                    Integer poll = queue.poll();
+                    sum -= poll;
+                    ladders--;
+                }
+                if (sum <= bricks) {
+                    lastPos = i;
+
+                } else {
+                    break;
+                }
+            }
+            preHigh = curHigh;
+        }
+        return lastPos;
+    }
+
+    /**
+     * 1705
+     *
+     * @param apples
+     * @param days
+     * @return
+     */
+    public static int eatenApples(int[] apples, int[] days) {
+        int N = apples == null ? 0 : apples.length;
+
+        Queue<ANode> queue = new PriorityQueue<>(Comparator.comparingInt(v -> v.badDay));
+
+        int ans = 0;
+        int i = 1;
+        while (i <= N || !queue.isEmpty()) {
+            if (i <= N) {
+                int num = apples[i-1];
+                int badDay = days[i-1] + i;
+                if (num > 0) {
+                    queue.offer(new ANode(num, badDay));
+                }
+            }
+            while (!queue.isEmpty() && queue.peek().badDay <= i) {
+                queue.poll();
+            }
+
+            if (!queue.isEmpty()) {
+                //选出今天要吃的
+                ANode node = queue.poll();
+                ans++;
+                node.num -= 1;
+                if (node.num > 0) {
+                    queue.offer(node);
+                }
+            }
+            i++;
+        }
+        return ans;
+    }
+
+    static class ANode{
+        public int num;
+
+        public int badDay;
+
+        public ANode(int num, int badDay) {
+            this.num = num;
+            this.badDay = badDay;
+        }
+    }
 
     public static void main(String[] args) {
-        int[] nums = new int[]{10, 1, 6, 9, 21, 3};
-        int[] leastNumbers1 = getLeastNumbers1(nums, 3);
-        System.err.println(leastNumbers1);
+        int[] apples =new int[] {1,2,3,5,2}, days = new int[]{3,2,1,4,2};
+        int i = eatenApples(apples, days);
+        System.err.println(i);
     }
 
 
