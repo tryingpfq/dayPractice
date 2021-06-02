@@ -248,21 +248,20 @@ public class Solution {
         if (head == null) {
             return null;
         }
-        while (head != null && head.val == val) {
-            head = head.next;
-        }
-        ListNode pre = head;
-        ListNode p = head.next;
+        ListNode dummy = new ListNode();
+        ListNode tail = dummy;
+
+        ListNode p = head;
         while (p != null) {
-            if (p.val == val) {
-                pre.next = p.next;
-                p = pre.next;
-            } else {
-                pre = p;
-                p = p.next;
+            ListNode back = p.next;
+            if (p.val != val) {
+                tail.next = p;
+                tail = p;
             }
+            p = back;
         }
-        return head;
+        tail.next = null;
+        return dummy.next;
     }
 
     /**
@@ -275,17 +274,19 @@ public class Solution {
         if (head == null) {
             return null;
         }
-        ListNode pre = head;
-        ListNode p = head.next;
+        ListNode dummy = new ListNode();
+        ListNode tail = dummy;
+        ListNode p = head;
         while (p != null) {
-            if (pre.val == p.val) {
-                pre.next = p.next;
-            } else {
-                pre = p;
+            ListNode back = p.next;
+            if (tail.next == null || p.val != tail.val) {
+                tail.next = p;
+                tail = p;
             }
-            p = p.next;
+            p = back.next;
         }
-        return head;
+        tail.next = null;
+        return dummy.next;
     }
 
     /**
@@ -451,28 +452,6 @@ public class Solution {
         return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
     }
 
-    /**
-     * 字符串相加
-     *
-     * @param num1
-     * @param num2
-     * @return
-     */
-    public String addStrings(String num1, String num2) {
-        int i = num1.length() - 1, j = num2.length() - 1, add = 0;
-        StringBuffer sb = new StringBuffer();
-        while (i >= 0 || j >= 0 || add != 0) {
-            int x = i >= 0 ? num1.charAt(i) - '0' : 0;
-            int y = j >= 0 ? num2.charAt(j) - '0' : 0;
-            int result = x + y + add;
-            sb.append(result % 10);
-            add = result / 10;
-            i--;
-            j--;
-        }
-        return sb.reverse().toString();
-
-    }
 
 
     /**
@@ -1276,8 +1255,8 @@ public class Solution {
         int i = 1;
         while (i <= N || !queue.isEmpty()) {
             if (i <= N) {
-                int num = apples[i-1];
-                int badDay = days[i-1] + i;
+                int num = apples[i - 1];
+                int badDay = days[i - 1] + i;
                 if (num > 0) {
                     queue.offer(new ANode(num, badDay));
                 }
@@ -1300,7 +1279,7 @@ public class Solution {
         return ans;
     }
 
-    static class ANode{
+    static class ANode {
         public int num;
 
         public int badDay;
@@ -1311,10 +1290,404 @@ public class Solution {
         }
     }
 
+    public ListNode reverseList1(ListNode head) {
+        ListNode dummy = new ListNode();
+
+        while (head != null) {
+            ListNode temp = head.next;
+            head.next = dummy.next;
+            dummy.next = head;
+            head = temp;
+        }
+        return dummy.next;
+    }
+
+
+    public static String add(String a, String b) {
+        int len1 = a.length() - 1;
+        int len2 = b.length() - 1;
+        int c = 0;
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = len1, j = len2; ; i--, j--) {
+            if (i < 0 && j < 0) {
+                break;
+            }
+            int v1 = i >= 0 ? a.charAt(i) - '0' : 0;
+            int v2 = j >= 0 ? a.charAt(i) - '0' : 0;
+            stringBuilder.append((v1 + v2 + c) % 2);
+            c = (v1 + v2) / 2;
+        }
+        if (c > 0) {
+            stringBuilder.append('1');
+        }
+        return String.valueOf(stringBuilder.reverse());
+    }
+
+
+    public int findRepeatNumber(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return -1;
+        }
+        Set<Integer> ids = new HashSet<>(2);
+        for (int i = 0; i < nums.length; i++) {
+            if (!ids.add(nums[i])) {
+                return nums[i];
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * 剑指offer
+     *
+     * @param matrix
+     * @param target
+     * @return
+     */
+    public boolean findNumberIn2DArray(int[][] matrix, int target) {
+        if (matrix == null || matrix.length == 0 ||
+                matrix[0] == null || matrix[0].length == 0) {
+            return false;
+        }
+
+        int col = matrix.length, com = matrix[0].length;
+
+        int i = 0, j = com - 1;
+        while (i < col && j >= 0) {
+            if (matrix[i][j] > target) {
+                j--;
+            } else if (matrix[i][j] < target) {
+                i++;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 剑指offer 替换空格
+     *
+     * @param s
+     * @return
+     */
+    public String replaceSpace(String s) {
+        if (s == null || s.length() == 0) {
+            return s;
+        }
+        StringBuilder stringBuilder = new StringBuilder(s.length());
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == ' ') {
+                stringBuilder.append("%20");
+            } else {
+                stringBuilder.append(s.charAt(i));
+            }
+        }
+        return String.valueOf(stringBuilder);
+    }
+
+    public int[] reversePrint(ListNode head) {
+        if (head == null) {
+            return new int[0];
+        }
+        ListNode p = head;
+        int len = 0;
+        while (p != null) {
+            len++;
+            p = p.next;
+        }
+        p = head;
+        int[] val = new int[len];
+        while (p != null) {
+            len--;
+            val[len] = p.val;
+            p = p.next;
+        }
+
+        return val;
+    }
+
+    /**
+     * 剑指offer
+     *
+     * @param preorder
+     * @param inorder
+     * @return
+     */
+
+    public Map<Integer, Integer> indexMap = new HashMap<>();
+
+    public TreeNode myBuildTree(int[] preorder, int preorder_left, int preorder_right, int inorder_left) {
+        if (preorder_left > preorder_right) {
+            return null;
+        }
+        //root 在中序数组中的位置
+        int rIndex_onOrder = indexMap.get(preorder_left);
+        int rValue = preorder[preorder_left];
+        int size = rIndex_onOrder - inorder_left;
+        TreeNode root = new TreeNode(rValue);
+        //左子树 修改pre dex
+        root.left = myBuildTree(preorder, preorder_left + 1, preorder_left + size, inorder_left);
+        root.right = myBuildTree(preorder, preorder_left + size + 1, preorder_right, rIndex_onOrder + 1);
+        return root;
+    }
+
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        int n = preorder.length;
+        // 构造哈希映射，帮助我们快速定位根节点
+        indexMap = new HashMap<Integer, Integer>();
+        for (int i = 0; i < n; i++) {
+            indexMap.put(inorder[i], i);
+        }
+        return myBuildTree(preorder, 0, n - 1, 0);
+    }
+
+    /**
+     * 113
+     *
+     * @param root
+     * @param targetSum
+     * @return
+     */
+
+    private List<List<Integer>> ansList = null;
+
+    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+        if (root == null) {
+            return null;
+        }
+        ansList = new ArrayList<>();
+
+        List<Integer> path = new ArrayList<>();
+        backTree(root, path, 0, targetSum);
+        return ansList;
+    }
+
+    private void backTree(TreeNode root, List<Integer> path, int sum, int target) {
+        if (root == null) {
+            return;
+        }
+
+        path.add(root.val);
+
+        sum += root.val;
+
+        if (root.left == null && root.right == null) {
+            if (sum == target) {
+                ansList.add(new ArrayList<>(path));
+            }
+        } else {
+            backTree(root.left, path, sum, target);
+            backTree(root.right, path, sum, target);
+        }
+        path.remove(path.size() - 1);
+
+    }
+
+    public static int fib(int n) {
+        int a = 0, b = 1, sum = 0;
+        for (int i = 0; i < n; i++) {
+            sum = (a + b) % 1000000007;
+            a = b;
+            b = sum;
+        }
+        return a;
+    }
+
+    public static int[] exchange(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return new int[0];
+        }
+        int a, b;
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] % 2 != 0) {
+                stack.push(i);
+            } else if (!stack.isEmpty()) {
+                int index = stack.pop();
+                int temp = nums[index];
+                nums[index] = nums[i];
+                nums[i] = temp;
+            }
+        }
+        return nums;
+    }
+
+    public int[] spiralOrder(int[][] matrix) {
+        if (matrix.length == 0) {
+            return new int[0];
+        }
+        int[] res = new int[matrix.length * matrix[0].length];
+        int u = 0, d = matrix.length - 1, l = 0, r = matrix[0].length - 1;
+        int idx = 0;
+        while (true) {
+            for (int i = l; i <= d; i++) {
+                res[idx++] = matrix[u][i];
+            }
+            if (++u > d) {
+                break;
+            }
+            for (int i = u; i <= d; i++) {
+                res[idx++] = matrix[i][r];
+            }
+            if (--r < l) {
+                break;
+            }
+
+        }
+        return res;
+    }
+
+    public char firstUniqChar(String s) {
+        Map<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            map.merge(s.charAt(i), 1, Integer::sum);
+        }
+
+        for (int i = 0; i < s.length(); i++) {
+            Integer count = map.get(s.charAt(i));
+            if (count != null) {
+                return s.charAt(i);
+            }
+        }
+        return ' ';
+    }
+
+    public String reverseLeftWords(String s, int n) {
+        int len = s.length();
+        char[] val = new char[len];
+        for (int i = 0; i < len; i++) {
+            if (i < n) {
+                val[len - n + i] = s.charAt(i);
+            } else {
+                val[i - n] = s.charAt(i);
+            }
+        }
+        return new String(val);
+    }
+
+    public String reverseWords(String s) {
+        s = s.trim(); // 删除首尾空格
+        int j = s.length() - 1, i = j;
+        StringBuilder res = new StringBuilder();
+        while (i >= 0) {
+            while (i >= 0 && s.charAt(i) != ' ') i--;
+
+            //拼接
+            res.append(s.substring(i + 1, j + 1));
+
+            //排除空格
+            while (i >= 0 && s.charAt(i) == ' ') ;
+        }
+        return res.toString().trim(); // 转化为字符串并返回
+    }
+
+    public boolean isSubStructure(TreeNode A, TreeNode B) {
+        if (A == null || B == null) {
+            return false;
+        }
+        return check(A, B) || isSubStructure(A.left, B) || isSubStructure(A.right, B);
+    }
+
+    public boolean check(TreeNode a, TreeNode b) {
+        if (b == null) {
+            return true;
+        }
+        if (a == null || a.val != b.val) {
+            return false;
+        }
+        return check(a.right, b.right) && check(a.left, b.left);
+    }
+
+
+    public String minNumber(int[] nums) {
+        Queue<String> queue = new PriorityQueue<>((v1, v2) -> {
+            long sum1 = Long.parseLong(v1 + v2);
+            long sum2 = Long.parseLong(v2 + v1);
+            if (sum1 > sum2) {
+                return -1;
+            } else {
+                return 1;
+            }
+        });
+
+        for (Integer num : nums) {
+            queue.offer(String.valueOf(num));
+        }
+        if (queue.isEmpty()) {
+            return "";
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+
+
+        while (!queue.isEmpty()) {
+            stringBuilder.append(queue.poll());
+        }
+        return stringBuilder.toString();
+    }
+
+    public static double myPow(double x, int n) {
+        double result = 1;
+        if (n == 0) {
+            return 1;
+        }
+        if (n > 0) {
+            for (int i = 0; i < n; i++) {
+                result *= x;
+            }
+        } else {
+            for (int i = 0; i < -n; i++) {
+                result *= x;
+            }
+            result = 1 / result;
+        }
+        return result;
+    }
+
+    public int[] levelOrder(TreeNode root) {
+        if (root == null) {
+            return new int[0];
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        List<Integer> result = new ArrayList<>();
+        while (!result.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode temp = queue.poll();
+                result.add(temp.val);
+                if (temp.left != null) {
+                    queue.offer(temp.left);
+                }
+                if (temp.right != null) {
+                    queue.offer(temp.right);
+                }
+            }
+        }
+        return null;
+    }
+
+    public String addStrings(String num1, String num2) {
+        StringBuilder res = new StringBuilder("");
+        int i = num1.length() - 1, j = num2.length() - 1, carry = 0;
+        while (i >= 0 || j >= 0) {
+            int n1 = i >= 0 ? num1.charAt(i) : 0;
+            int n2 = j >= 0 ? num2.charAt(j) : 0;
+            int sum = n1 + n2 + carry;
+
+            carry = sum / 10;
+            res.append(carry);
+            i--;
+            j--;
+        }
+        if (carry == 1) res.append(1);
+        return res.reverse().toString();
+    }
+
+
     public static void main(String[] args) {
-        int[] apples =new int[] {1,2,3,5,2}, days = new int[]{3,2,1,4,2};
-        int i = eatenApples(apples, days);
-        System.err.println(i);
+        double v = myPow(2, -2);
+        System.err.println(v);
     }
 
 

@@ -1,7 +1,5 @@
 package com.tryingpfq.algo.sort;
 
-import org.apache.hadoop.yarn.webapp.hamlet2.Hamlet;
-
 /**
  * @author tryingpfq
  * @date 2020/8/10
@@ -99,20 +97,20 @@ public class Sort {
     }
 
     public void merge(int[] a, int p, int q, int r) {
-        int i =p;
-        int j = q+1;
+        int i = p;
+        int j = q + 1;
         int k = 0;
         int[] temp = new int[r - p + 1];
         while (i <= q && j <= r) {
             if (a[i] <= a[j]) {
                 temp[k] = a[i++];
-            }else{
+            } else {
                 temp[k] = a[j++];
             }
             k++;
         }
 
-        int star = i,end = p;
+        int star = i, end = p;
         if (j <= r) {
             star = j;
             end = r;
@@ -134,7 +132,7 @@ public class Sort {
         quickSortInternally(a, 0, n);
     }
 
-    public void quickSortInternally(int[] a, int p, int r) { 
+    public static void quickSortInternally(int[] a, int p, int r) {
         if (p >= r) {
             return;
         }
@@ -143,21 +141,23 @@ public class Sort {
         quickSortInternally(a, q + 1, r);
     }
 
+
     /**
      * 获取分区点位置
+     *
      * @param a
      * @param p
      * @param r
      */
-    public int  partition(int[] a, int p, int r) {
+    public static int partition(int[] a, int p, int r) {
         //以最后一个作为比较
         int pivot = a[r];
-        int i= p;
+        int i = p;
         for (int j = p; j < r; ++j) {
             if (a[j] < pivot) {
                 if (i == j) {
                     i++;
-                }else{
+                } else {
                     int temp = a[i];
                     a[i++] = a[j];
                     a[j] = temp;
@@ -169,5 +169,10 @@ public class Sort {
         a[i] = a[r];
         a[r] = temp;
         return i;
+    }
+
+    public static void main(String[] args) {
+        int[] data = new int[]{1, 3, 6, 10, 5};
+        quickSortInternally(data, 0, 4);
     }
 }
