@@ -3,6 +3,9 @@ package com.tryingpfq.algo.leetcode;
 import org.apache.commons.lang.ArrayUtils;
 
 import java.util.*;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author tryingpfq
@@ -1686,8 +1689,25 @@ public class Solution {
 
 
     public static void main(String[] args) {
-        double v = myPow(2, -2);
-        System.err.println(v);
+//        double v = myPow(2, -2);
+//        System.err.println(v);
+
+        int[] index = findIndex(new int[]{2, 5, 7, 10}, 9);
+        System.err.println(index);
+    }
+
+    public static int[] findIndex(int[] nums,int target){
+        HashMap<Integer, Integer> map = new HashMap<>(nums.length);
+        for(int i = 0 ; i < nums.length ; i++){
+            int diff = target - nums[i];
+            int last = map.getOrDefault(diff,-1);
+            if(last > -1){
+                return new int[]{i,last};
+            }else{
+                map.put(nums[i],i);
+            }
+        }
+        return new int[0];
     }
 
 

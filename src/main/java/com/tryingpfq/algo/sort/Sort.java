@@ -89,7 +89,7 @@ public class Sort {
         if (p >= r) {
             return;
         }
-        int q = p + (r - p) / 2;
+        int q = p + (r - p) >> 1;
         mergeSortInternally(a, p, q);
         mergeSortInternally(a, q, r);
 
@@ -171,8 +171,35 @@ public class Sort {
         return i;
     }
 
+
+    public static int coin(int[] coins,int mount){
+        int val = dp(coins, mount);
+        return val;
+    }
+
+    public static int dp(int[] conins,int mount){
+        if(mount < 0){
+            return -1;
+        }
+        if(mount == 0){
+            return 0;
+        }
+        int res = Integer.MAX_VALUE;
+        for (int coin : conins) {
+            int val = dp(conins,mount - coin);
+            if (val == -1) {
+                continue;
+            }
+            res = Math.min(res, 1 + val);
+        }
+        if (res < Integer.MAX_VALUE) {
+            return  res;
+        }
+        return -1;
+
+    }
     public static void main(String[] args) {
-        int[] data = new int[]{1, 3, 6, 10, 5};
-        quickSortInternally(data, 0, 4);
+        int coin = coin(new int[]{1, 3, 5}, 24);
+        System.err.println(coin);
     }
 }
